@@ -1,0 +1,52 @@
+# Arquivos do sistema
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependências
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Arquivos de build
+dist/
+build/
+.next/
+out/
+
+# Arquivos de ambiente
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Arquivos temporários
+*.tmp
+*.temp
+
+# Arquivos de backup
+*.bak
+*.backup
+
+# Arquivos do cPanel/Hostgator
+.ftpquota
+.htaccess.phpupgrader.*
+access-logs/
+etc/
+logs/
+mail/
+perl5/
+public_ftp/
+ssl/
+tmp/
+www/
+
+# Arquivos de referência de desenvolvimento
+referencia_dev/

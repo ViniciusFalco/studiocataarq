@@ -1,0 +1,190 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "Rams W01";
+  src: url("/font/Rams W01 Regular.woff2") format("woff2"),
+    url("/font/Rams W01 Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Rams W01";
+  src: url("/font/Rams W01 Bold.woff2") format("woff2"),
+    url("/font/Rams W01 Bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Roboto Thin";
+  src: url("/font/Roboto-Thin.woff2") format("woff2"),
+    url("/font/Roboto-ThinItalic.woff2") format("woff2");
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --font-sans: "Lexend", sans-serif;
+  --font-rams: "Rams W01", "Lexend", sans-serif;
+  --font-roboto-thin: "Roboto Thin", "Lexend", sans-serif;
+  --font-comfortaa: "Comfortaa", "Lexend", sans-serif;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+html,
+body {
+  width: 100%;
+  max-width: 100vw;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+@keyframes page-content-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-transition main {
+  animation: page-content-in 420ms cubic-bezier(.22, .61, .36, 1);
+}
+
+@keyframes cover-pan-y {
+  0%,
+  6% {
+    object-position: center top;
+  }
+
+  50% {
+    object-position: center bottom;
+  }
+
+  88%,
+  100% {
+    object-position: center top;
+  }
+}
+
+@keyframes cover-pan-y-center {
+  0%,
+  6% {
+    object-position: center top;
+  }
+
+  50% {
+    object-position: center center;
+  }
+
+  100% {
+    object-position: center center;
+  }
+}
+
+.cover-pan-y {
+  animation: cover-pan-y 14s ease-in-out infinite;
+  object-position: center top;
+}
+
+.cover-pan-y-center {
+  animation: cover-pan-y-center 14s ease-in-out forwards;
+  object-position: center top;
+}
+
+@media (max-width: 768px) {
+  .project-card-mobile-motion {
+    transition:
+      opacity 380ms cubic-bezier(.22, .61, .36, 1),
+      transform 380ms cubic-bezier(.22, .61, .36, 1);
+    will-change: opacity, transform;
+  }
+
+  .project-card-mobile-motion[data-mobile-visible="false"] {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+
+  .project-card-mobile-motion[data-mobile-visible="true"] {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .project-card-desktop-text {
+    display: none !important;
+  }
+
+  .project-card-mobile-title {
+    max-width: 100%;
+    white-space: normal;
+  }
+
+  .project-card-mobile-overlay {
+    transition:
+      opacity 340ms cubic-bezier(.22, .61, .36, 1),
+      transform 340ms cubic-bezier(.22, .61, .36, 1),
+      scale 340ms cubic-bezier(.22, .61, .36, 1);
+    will-change: opacity, transform;
+  }
+
+  .project-card-mobile-image {
+    transition:
+      opacity 900ms ease-in-out,
+      transform 420ms cubic-bezier(.22, .61, .36, 1),
+      filter 420ms cubic-bezier(.22, .61, .36, 1);
+    will-change: opacity, transform;
+  }
+}
+
+@media (max-width: 480px) {
+  .project-card-mobile-title {
+    font-size: 18px !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-transition main {
+    animation: none;
+  }
+
+  .cover-pan-y,
+  .cover-pan-y-center {
+    animation: none;
+    object-position: center center;
+  }
+}
+
+@media (max-width: 768px) and (prefers-reduced-motion: reduce) {
+  .project-card-mobile-motion,
+  .project-card-mobile-overlay,
+  .project-card-mobile-image {
+    transition: none !important;
+    transform: none !important;
+  }
+
+  .project-card-mobile-motion[data-mobile-visible="false"] {
+    opacity: 1;
+  }
+}
