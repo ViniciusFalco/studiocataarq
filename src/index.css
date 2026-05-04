@@ -104,6 +104,16 @@ body {
   }
 }
 
+@keyframes project-slide-progress {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
 .cover-pan-y {
   animation: cover-pan-y 14s ease-in-out infinite;
   object-position: center top;
@@ -115,6 +125,12 @@ body {
 }
 
 @media (max-width: 768px) {
+  .cover-pan-y,
+  .cover-pan-y-center {
+    animation: none;
+    object-position: center center;
+  }
+
   .project-card-mobile-motion {
     transition:
       opacity 380ms cubic-bezier(.22, .61, .36, 1),
@@ -156,6 +172,13 @@ body {
       filter 420ms cubic-bezier(.22, .61, .36, 1);
     will-change: opacity, transform;
   }
+
+  .project-card-mobile-slide-progress {
+    animation: project-slide-progress var(--slide-progress-duration, 6000ms) linear forwards;
+    transform: scaleX(0);
+    transform-origin: left center;
+    will-change: transform;
+  }
 }
 
 @media (max-width: 480px) {
@@ -170,8 +193,13 @@ body {
   }
 
   .cover-pan-y,
-  .cover-pan-y-center {
+  .cover-pan-y-center,
+  .project-card-mobile-slide-progress {
     animation: none;
+  }
+
+  .cover-pan-y,
+  .cover-pan-y-center {
     object-position: center center;
   }
 }
@@ -179,7 +207,8 @@ body {
 @media (max-width: 768px) and (prefers-reduced-motion: reduce) {
   .project-card-mobile-motion,
   .project-card-mobile-overlay,
-  .project-card-mobile-image {
+  .project-card-mobile-image,
+  .project-card-mobile-slide-progress {
     transition: none !important;
     transform: none !important;
   }

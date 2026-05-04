@@ -33,6 +33,11 @@ export const homeProjects = [
     title: 'Apê Siqueira',
     subtitle: 'Cataguases, MG - 2025',
     homeTitleClass: 'min-[769px]:text-[48px]',
+    coverSlides: [
+      '/img/projetos/apesiqueira/lite/b8a47d3f0a324c9694fb42988bd2a6ed.jpg',
+      '/img/projetos/apesiqueira/3.jpg',
+      '/img/projetos/apesiqueira/4.jpg',
+    ],
   },
   {
     slug: 'tucunare',

@@ -11,7 +11,7 @@ const navItems = [
 
 function getCurrentNavLabel(currentPath) {
   if (currentPath === '/') {
-    return 'Início';
+    return '';
   }
 
   if (currentPath.startsWith('/projetos/')) {
@@ -25,14 +25,14 @@ function getCurrentNavLabel(currentPath) {
 
 function getMobileLabelClasses(label) {
   if (label.length > 24) {
-    return 'max-w-[155px] text-[9px] leading-[1.08] tracking-[0.13em]';
+    return 'max-w-[175px] text-[10px] leading-[1.08] tracking-[0.12em]';
   }
 
   if (label.length > 18) {
-    return 'max-w-[170px] text-[9px] leading-[1.08] tracking-[0.15em]';
+    return 'max-w-[185px] text-[11px] leading-[1.08] tracking-[0.12em]';
   }
 
-  return 'max-w-[170px] text-[10px] leading-none tracking-[0.16em]';
+  return 'max-w-[190px] text-[12px] leading-none tracking-[0.12em]';
 }
 
 export default function Header({
@@ -49,31 +49,33 @@ export default function Header({
 
   return (
     <>
-      <header className="site-header relative z-[100] flex h-[90px] w-full max-w-[100vw] items-center justify-between overflow-hidden rounded-b-[25px] bg-white px-5 py-2.5 shadow-[0_4px_8px_rgba(0,0,0,0.1)] max-[1201px]:fixed max-[1201px]:left-0 max-[1201px]:right-0 max-[1201px]:top-3 max-[1201px]:mx-auto max-[1201px]:h-[50px] max-[1201px]:w-[calc(100%-56px)] max-[1201px]:max-w-[330px] max-[1201px]:overflow-visible max-[1201px]:rounded-none max-[1201px]:px-3 max-[1201px]:py-0 max-[1201px]:shadow-[0_8px_22px_rgba(0,0,0,0.12)]">
+      <header className="site-header relative z-[100] flex h-[90px] w-full max-w-[100vw] items-center justify-between overflow-hidden rounded-b-[25px] bg-white px-5 py-2.5 shadow-[0_4px_8px_rgba(0,0,0,0.1)] max-[1201px]:fixed max-[1201px]:left-0 max-[1201px]:right-0 max-[1201px]:top-0 max-[1201px]:m-0 max-[1201px]:h-[74px] max-[1201px]:w-full max-[1201px]:max-w-none max-[1201px]:overflow-visible max-[1201px]:rounded-none max-[1201px]:px-0 max-[1201px]:py-0 max-[1201px]:shadow-none">
         <a
-          className="max-[1201px]:flex max-[1201px]:items-center max-[1201px]:justify-start"
+          className="max-[1201px]:flex max-[1201px]:h-full max-[1201px]:w-[112px] max-[1201px]:items-center max-[1201px]:justify-start max-[1201px]:pl-8"
           href="/"
           aria-label="Studio Catá Arquitetura"
           onClick={closeAndNavigate('/')}
         >
           <div className="logo">
             <img
-              className="ml-[30px] max-h-[70px] w-auto pt-[5px] max-[1201px]:ml-0 max-[1201px]:max-h-[30px] max-[1201px]:p-0"
+              className="ml-[30px] max-h-[70px] w-auto pt-[5px] max-[1201px]:ml-0 max-[1201px]:max-h-[44px] max-[1201px]:p-0"
               src="/img/logopreta.PNG"
               alt="Logo"
             />
           </div>
         </a>
 
-        <span
-          className={`font-rams pointer-events-none absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 whitespace-normal break-words text-center font-bold uppercase text-black [text-wrap:balance] max-[1201px]:block ${getMobileLabelClasses(currentNavLabel)}`}
-        >
-          {currentNavLabel}
-        </span>
+        {currentNavLabel ? (
+          <span
+            className={`font-rams pointer-events-none absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 whitespace-normal break-words text-center font-bold uppercase text-black [text-wrap:balance] max-[1201px]:block ${getMobileLabelClasses(currentNavLabel)}`}
+          >
+            {currentNavLabel}
+          </span>
+        ) : null}
 
         <nav className="max-[1201px]:contents">
           <ul
-            className={`nav-list flex list-none transition-transform duration-300 ease-in-out max-[1201px]:fixed max-[1201px]:left-0 max-[1201px]:top-0 max-[1201px]:z-[150] max-[1201px]:m-0 max-[1201px]:h-screen max-[1201px]:w-full max-[1201px]:flex-col max-[1201px]:items-center max-[1201px]:justify-center max-[1201px]:overflow-y-auto max-[1201px]:bg-[rgba(255,255,255,0.98)] max-[1201px]:p-0 max-[1201px]:shadow-[0_4px_8px_rgba(0,0,0,0.1)] ${
+            className={`nav-list flex list-none transition-transform duration-300 ease-in-out max-[1201px]:fixed max-[1201px]:left-0 max-[1201px]:top-0 max-[1201px]:z-[150] max-[1201px]:m-0 max-[1201px]:h-screen max-[1201px]:w-full max-[1201px]:flex-col max-[1201px]:items-center max-[1201px]:justify-center max-[1201px]:overflow-y-auto max-[1201px]:bg-[rgba(255,255,255,0.98)] max-[1201px]:p-0 max-[1201px]:shadow-none ${
               isMenuOpen ? 'max-[1201px]:translate-y-0' : 'max-[1201px]:-translate-y-[150%]'
             }`}
           >
@@ -111,27 +113,27 @@ export default function Header({
         </nav>
 
         <button
-          className="mobile-menu hidden h-7 w-7 shrink-0 cursor-pointer flex-col items-center justify-center gap-[4px] bg-transparent p-0 text-black max-[1201px]:relative max-[1201px]:z-[200] max-[1201px]:flex"
+          className="mobile-menu hidden h-9 w-9 shrink-0 cursor-pointer flex-col items-center justify-center gap-[5px] bg-transparent p-0 text-black max-[1201px]:relative max-[1201px]:z-[200] max-[1201px]:mr-8 max-[1201px]:flex"
           type="button"
           aria-label={isMenuOpen ? 'Fechar menu' : 'Abrir menu'}
           aria-expanded={isMenuOpen}
           onClick={() => setIsMenuOpen((open) => !open)}
         >
           <span
-            className={`block h-[2px] w-[18px] bg-black transition duration-300 ${
-              isMenuOpen ? 'translate-y-[6px] rotate-45' : ''
+            className={`block h-[2px] w-[24px] bg-black transition duration-300 ${
+              isMenuOpen ? 'translate-y-[7px] rotate-45' : ''
             }`}
             aria-hidden="true"
           />
           <span
-            className={`block h-[2px] w-[18px] bg-black transition duration-300 ${
+            className={`block h-[2px] w-[24px] bg-black transition duration-300 ${
               isMenuOpen ? 'opacity-0' : ''
             }`}
             aria-hidden="true"
           />
           <span
-            className={`block h-[2px] w-[18px] bg-black transition duration-300 ${
-              isMenuOpen ? '-translate-y-[6px] -rotate-45' : ''
+            className={`block h-[2px] w-[24px] bg-black transition duration-300 ${
+              isMenuOpen ? '-translate-y-[7px] -rotate-45' : ''
             }`}
             aria-hidden="true"
           />

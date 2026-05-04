@@ -78,7 +78,7 @@ export default function PortfolioGallery({ images, columns = 3 }) {
         </div>
       )}
 
-      <section className={`mx-auto my-5 max-w-[1400px] px-5 ${columnsClass} min-[3840px]:max-w-[1800px] min-[3840px]:gap-5`}>
+      <section className={`mx-auto mb-5 mt-0 max-w-[1400px] px-5 ${columnsClass} min-[3840px]:max-w-[1800px] min-[3840px]:gap-5`}>
         {preparedImages.map((image) => (
           <button
             className="mb-5 block w-full cursor-pointer break-inside-avoid border-0 bg-transparent p-0 text-left transition-transform hover:scale-[1.015] hover:shadow-[3px_3px_8px_0px_#000000]"

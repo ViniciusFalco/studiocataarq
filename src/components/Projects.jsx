@@ -4,13 +4,13 @@ import { createRouteClickHandler } from '../utils/routes.js';
 
 const AUTO_HOVER_DURATION_MS = 1500;
 const COVER_SLIDE_INTERVAL_MS = 6500;
-const MOBILE_COVER_SLIDE_INTERVAL_MS = 2800;
+const MOBILE_COVER_SLIDE_INTERVAL_MS = 6000;
 const COVER_SLIDE_FADE_MS = 900;
 const MOBILE_PROJECT_QUERY = '(max-width: 768px)';
 const ALL_MOBILE_CARDS_ACTIVE = '__all_mobile_project_cards__';
 
 const sectionClasses = {
-  home: 'block w-full px-5 pb-24 pt-0 max-[1200px]:px-0 max-[768px]:py-5 min-[1201px]:pb-36',
+  home: 'block w-full px-5 pb-24 pt-0 max-[1200px]:px-0 max-[768px]:pb-5 max-[768px]:pt-0 min-[1201px]:pb-36',
   list: 'block w-full px-5 pb-24 pt-0 max-[1200px]:px-0 min-[1201px]:pb-36',
   works: 'block w-full px-5 pb-24 pt-0 max-[1200px]:px-0 min-[1201px]:pb-36',
 };
@@ -296,6 +296,7 @@ function ProjectCard({
   const shouldShowIntroHover = isFeatured && isAutoHoverActive;
   const shouldCenterPan = project.coverPanMode === 'center' || (variant === 'works' && isFeatured);
   const shouldDisableZoom = project.disableCoverZoom && shouldPanImage;
+  const shouldApplyPanImage = shouldPanImage && !isMobileMotionEnabled;
   const panClass = shouldCenterPan ? 'cover-pan-y-center' : 'cover-pan-y';
   const hoverZoomClass = shouldDisableZoom ? '' : 'min-[769px]:group-hover:scale-[1.04]';
   const introZoomClass = shouldShowIntroHover && !shouldDisableZoom ? 'min-[769px]:scale-[1.04]' : '';
@@ -309,9 +310,7 @@ function ProjectCard({
   const mobileMotionDelay = isMobileMotionEnabled && isMobileVisible
     ? `${Math.min(mobileMotionIndex, 4) * 45}ms`
     : '0ms';
-  const mobileImageScaleClass = isMobileMotionEnabled && isMobileActive && !shouldDisableZoom
-    ? 'max-[768px]:scale-[1.015]'
-    : 'max-[768px]:scale-100';
+  const mobileImageScaleClass = 'max-[768px]:scale-100';
   const mobileOverlayClass = isMobileActive ? 'opacity-100' : 'opacity-0';
   const mobileTextClass = isMobileActive
     ? 'translate-y-0 scale-100 opacity-100'
@@ -338,6 +337,7 @@ function ProjectCard({
   const coverSlideInterval = isMobileMotionEnabled
     ? MOBILE_COVER_SLIDE_INTERVAL_MS
     : COVER_SLIDE_INTERVAL_MS;
+  const shouldShowMobileProgress = isMobileMotionEnabled && isMobileActive && coverSlides.length > 1;
   const [slideIndex, setSlideIndex] = useState(0);
   const [previousSlideSrc, setPreviousSlideSrc] = useState(null);
   const [isCurrentSlideVisible, setIsCurrentSlideVisible] = useState(true);
@@ -345,12 +345,19 @@ function ProjectCard({
   const imageFrameClass = `relative mb-[15px] w-full max-w-full overflow-hidden min-[769px]:mb-0 ${imageClass}`;
   const slideImageClass = `project-card-mobile-image absolute inset-0 h-full w-full max-w-full object-cover ${mobileImageScaleClass} ${hoverZoomClass} min-[769px]:group-hover:blur-[3px] min-[769px]:group-hover:brightness-[0.6] ${shouldShowIntroHover ? `${introZoomClass} min-[769px]:blur-[3px] min-[769px]:brightness-[0.6]` : ''}`;
   const slideTransition = `opacity ${COVER_SLIDE_FADE_MS}ms ease-in-out, transform 500ms ease, filter 500ms ease`;
+  const previousSlideObjectPosition = isMobileMotionEnabled
+    ? 'center center'
+    : shouldCenterPan
+      ? 'center center'
+      : 'center bottom';
 
   useEffect(() => {
     setSlideIndex(0);
     setPreviousSlideSrc(null);
     setIsCurrentSlideVisible(true);
+  }, [coverSlides, project.image]);
 
+  useEffect(() => {
     if (!shouldRunCoverSlides) {
       return undefined;
     }
@@ -413,7 +420,7 @@ function ProjectCard({
             alt=""
             aria-hidden="true"
             style={{
-              objectPosition: shouldCenterPan ? 'center center' : 'center bottom',
+              objectPosition: previousSlideObjectPosition,
               opacity: isCurrentSlideVisible ? 0 : 1,
               transition: slideTransition,
             }}
@@ -421,11 +428,12 @@ function ProjectCard({
         )}
         <img
           key={`${project.href}-${slideIndex}`}
-          className={`${slideImageClass} ${shouldPanImage ? panClass : ''}`}
+          className={`${slideImageClass} ${shouldApplyPanImage ? panClass : ''}`}
           src={slideSrc}
           alt={coverSlides.length > 1 ? `${project.alt} - imagem ${slideIndex + 1}` : project.alt}
           loading="lazy"
           style={{
+            objectPosition: isMobileMotionEnabled ? 'center center' : undefined,
             opacity: isCurrentSlideVisible ? 1 : 0,
             transition: slideTransition,
           }}
@@ -434,6 +442,20 @@ function ProjectCard({
           aria-hidden="true"
           className={`project-card-mobile-overlay pointer-events-none absolute inset-0 z-[2] bg-black/35 min-[769px]:hidden ${mobileOverlayClass}`}
         />
+        {shouldShowMobileProgress && (
+          <span
+            className="pointer-events-none absolute bottom-4 left-1/2 z-[4] block h-px w-[72px] -translate-x-1/2 overflow-hidden bg-white/30 min-[769px]:hidden"
+            aria-hidden="true"
+          >
+            <span
+              key={`${project.href}-${slideIndex}-progress`}
+              className="project-card-mobile-slide-progress block h-full w-full bg-white/90"
+              style={{
+                '--slide-progress-duration': `${coverSlideInterval}ms`,
+              }}
+            />
+          </span>
+        )}
         <div
           className={`project-card-mobile-overlay pointer-events-none absolute inset-0 z-[3] flex flex-col items-center justify-center px-6 text-center text-white min-[769px]:hidden ${mobileTextClass}`}
         >
